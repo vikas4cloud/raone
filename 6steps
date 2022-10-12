@@ -1,0 +1,75 @@
+Vikas personal key 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
+
+curl --request GET -k \--url https://api.github.com/users/kosurumuniraja
+
+curl --request GET -k \--url https://api.github.com/users/vikas4cloud
+
+
+
+-----
+We have to create a script (githubapi) to check all this 
+
+1. Have a branch protection rule applied to master that requires at least 1 additional review before it can be merged
+
+
+curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k \https://api.github.com/repos/kosurumuniraja/Helloworld/branches/master/protection
+
+
+Vikas Account  worked "branch not protected "
+
+curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k \https://api.github.com/repos/vikas4cloud/raone/branches/main/protection
+
+2.  Requires status checks to pass before merging (dependant on the PR building)
+
+curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k "https://api.github.com/repos/kosurumuniraja/Helloworld/branches/master/protection/required_status_checks"
+
+vikas 
+curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k "https://api.github.com/repos/vikas4cloud/raone/branches/main/protection/required_status_checks"
+
+
+3. Requires branches to be up to date before merging (dependant on the PR building)
+munni dont  have 
+
+4, Enable a dry-run mode which report on the repos that don't currently match the requirements
+invalid 
+
+5 Admins should be able to push to master -
+curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k \https://api.github.com/repos/kosurumuniraja/Helloworld/branches/master/protection/enforce_admins
+
+
+vikas 
+curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k \https://api.github.com/repos/vikas4cloud/raone/branches/main/protection/enforce_admins
+
+6 Find stale branches for every repos
+
+curl -k https://api.github.com/repos/kosurumuniraja/Hsbc/branches/master | ./jq '.commit.commit.author.date'
+
+jq need to installs
+
+need to ad the validation logic also  
+
+
+Combined 1 2 5
+
+curl -X PUT -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k https://api.github.com/repos/kosurumuniraja/Helloworld/branches/master/protection  -d '{"required_status_checks":{"strict":true,"checks":[]},"enforce_admins":true,"required_pull_request_reviews":{"required_approving_review_count":1},"restrictions":null}'
+
+
+in jenkins 
+"curl -s -u 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 https://api.github.com/repos/vikas4cloud/${REPO_NAME}/branches/${Branch}/protection", returnStdout: true).trim()
+
+we have to validate the condition if any condition is false then echo the repo name 
+
+
+
+---------------------------
+
+
+curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k \https://api.github.com/repos/kosurumuniraja/Helloworld/branches/master/protection
+
+
+Make sure check all below points via any scrip(groovy) if any condition not satisfied in any repo the repo nams should be published 
+
+
+
+
+

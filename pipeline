@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+   stages {     
+        stage("validation of Pull") {
+            steps {
+                script {
+                    final String response = sh(script: """curl -X PUT -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -k https://api.github.com/repos/kosurumuniraja/Helloworld/branches/master/protection  -d '{"required_status_checks":{"strict":true,"checks":[]},"enforce_admins":true,"required_pull_request_reviews":{"required_approving_review_count":1},"restrictions":null}'""",returnStdout: true).trim()  
+                  echo response  
+                    
+        stage('test') {
+           echo('env.REPO_NAME')
+            if (env.REPO_NAME == 'Helloworld') {
+                echo 'Published the repo'
+            } else {
+                echo 'if any condition  above requirements not satisified  any repositpry the repository names should be published'
+                echo('REPO_NAME = Helloworld')
+            }   
+        
+                   
+                }
+            }               
+        }
+        
+       
+    }
+
+
+
+
+
+}
+}
+
+----------------------------------
+working parameterilise build  muni
+
+pipeline {
+    agent any
+    parameters {
+      string(defaultValue: '', description: 'Please enter the Repo name to build', name: 'REPO_NAME')
+      string(defaultValue: '', description: 'branch to build', name: 'Branch')
+      }
+  stages {  
+        stage("Using curl example") {
+            steps {
+                script {   
+                    final String response = sh(script: "curl -s -u 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 https://api.github.com/repos/vikas4cloud/${REPO_NAME}/branches/${Branch}/protection", returnStdout: true).trim() 
+                    echo response  
+                }
+            }               
+        }  
+    }
+}
+
+--------------------------------------
+
+pipeline {
+    agent any
+    parameters {
+      string(defaultValue: '', description: 'Please enter the Repo name to build', name: 'REPO_NAME')
+      string(defaultValue: '', description: 'branch to build', name: 'Branch')
+      }
+  stages {  
+        stage("Using curl example") {
+            steps {
+                script {   
+                    final String response = sh(script: "curl -s -u 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 https://api.github.com/repos/vikas4cloud/${REPO_NAME}/branches/${Branch}/protection", returnStdout: true).trim() 
+                    echo response 
+                     
+                }
+            }               
+        }  
+    }
+}
